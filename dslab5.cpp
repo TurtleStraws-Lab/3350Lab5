@@ -18,12 +18,21 @@ int counter = 0;
 char arr[400]= {0};
 map<string, int> nameCount;
 map<int, int> Count;
+ifstream in;
 
 int main(int argc, char *argv[])
 {
+#ifdef WHO_TEST
+  system("who > file.txt");
+#else  
     system("PROCPS_USERLEN=15 w -h > file.txt");
-
+#endif
     ifstream fin("file.txt");
+#ifdef UNIT_TEST
+    in.open("live_data.txt");
+#else
+    in.open("test_data.txt");
+#endif
     char line[400];
 
     while (fin.getline(line,400)) {
@@ -52,12 +61,12 @@ time(&T);
 printf("time: %s\n", ctime(&T));
 for (const auto& entry : Count) {
     if(entry.second == 1){
-        cout << "0" << entry.second << " user  appeared: " << entry.first << " times." << endl;
+        cout << "0" << entry.second << " login:  " << entry.first << " times." << endl;
     } else if (entry.second < 10){
-        cout << "0" << entry.second << " users appeared: " << entry.first << " times." << endl;
+        cout << "0" << entry.second << " logins: " << entry.first << " times." << endl;
     } 
     else {
-    cout << entry.second << " users appeared: " << entry.first << " times." << endl;
+    cout << entry.second << " logins: " << entry.first << " times." << endl;
     }
 }
 
